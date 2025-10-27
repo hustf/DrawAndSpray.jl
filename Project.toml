@@ -1,0 +1,12 @@
+name = "DrawAndSpray"
+uuid = "80de0461-81d9-4176-ac57-184d3ad6c8ef"
+version = "0.0.1"
+authors = ["hustf <hustf@users.noreply.github.com> and contributors"]
+
+[deps]
+ColorBlendModes = "60508b50-96e1-4007-9d6c-f475c410f16b"
+ImageCore = "a09fc81d-aa75-5fe9-8630-4744c3626534"
+
+[compat]
+ColorBlendModes = "0.2.4"
+ImageCore = "0.10.5"
