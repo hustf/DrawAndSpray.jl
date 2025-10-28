@@ -31,15 +31,16 @@ julia> using DrawAndSpray
 julia> varinfo(DrawAndSpray)
   name                             size summary
   –––––––––––––––––––––––––– –––––––––– –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  DrawAndSpray               28.413 KiB Module
-  LogMapper                    40 bytes UnionAll
-  apply_color_by_coverage!      0 bytes apply_color_by_coverage! (generic function with 1 method)  
-  color_neighbors!              0 bytes color_neighbors! (generic function with 1 method)
-  draw_bidirectional_vector!    0 bytes draw_bidirectional_vector! (generic function with 1 method)
-  draw_vector!                  0 bytes draw_vector! (generic function with 1 method)
-  line!                         0 bytes line! (generic function with 2 methods)
-  mark_at!                      0 bytes mark_at! (generic function with 3 methods)
-  spray!                        0 bytes spray! (generic function with 1 method)
+  DrawAndSpray                31.880 KiB Module
+  LogMapper                     40 bytes UnionAll
+  apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)
+  color_neighbors!               0 bytes color_neighbors! (generic function with 1 method)
+  draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method)
+  draw_vector!                   0 bytes draw_vector! (generic function with 1 method)
+  line!                          0 bytes line! (generic function with 2 methods)
+  mark_at!                       0 bytes mark_at! (generic function with 3 methods)
+  spray!                         0 bytes spray! (generic function with 1 method)
+  spray_along_nested_indices!    0 bytes spray_along_nested_indices! (generic function with 1 method)
 ```
 
 See the test directory for examples.

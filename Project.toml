@@ -1,6 +1,6 @@
 name = "DrawAndSpray"
 uuid = "80de0461-81d9-4176-ac57-184d3ad6c8ef"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["hustf <hustf@users.noreply.github.com> and contributors"]
 
 [deps]

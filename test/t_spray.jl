@@ -2,7 +2,8 @@ using Test
 using DrawAndSpray
 using DrawAndSpray: LogMapper, N0f8, spray!, display_if_vscode, RGBA
 using DrawAndSpray: apply_color_by_coverage!, RGB
-include("common.jl")
+
+!@isdefined(hash_image) && include("common.jl")
 
 ####################
 # Non-linear mapping

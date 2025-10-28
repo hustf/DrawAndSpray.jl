@@ -14,5 +14,7 @@ function display_if_vscode(M::Matrix{T}) where T <: Union{RGBA{N0f8}, RGB{N0f8},
             # Display
             display(M)
         end
+    else
+        @show isinteractive() # Temp
     end
 end

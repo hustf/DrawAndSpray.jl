@@ -120,25 +120,55 @@ function draw_bidirectional_vector!(cov, p, v::AbstractVector, strength::Float32
 end
 
 """
-    spray_along_nested_indices(cov, spts, r::Float32, strength::Float32) 
+    is_bidirec_vect_positive(v::AbstractVector) --> Bool
+
+v is a 2d vector representing a bi-directional quantity, 
+i.e. one that is is π-symmetric or 180° symmetric, like uniaxial stress
+or curvature.
+
+If v = [x, y] is in the second or fourth quadrant: 
+  - its sign is negative.
+  - the quantity magnitude is √(x^2 + y^2)
+  - it is directed along α = atan(y, x) \n 
+    and also along α + π 
+
+# Example
+```
+julia> is_bidirec_vect_positive([1.0, 0.0])
+true
+
+julia> is_bidirec_vect_positive([1.0, -0.0])
+false
+
+julia> is_bidirec_vect_positive([1.0, -1.0])
+false
+
+julia> is_bidirec_vect_positive([-1.0, -2.0])
+false
+```
+"""
+is_bidirec_vect_positive(v::AbstractVector) = !signbit(v[2])
+
+"""
+    spray_along_nested_indices!(cov, spts, r::Float32, strength::Float32) 
 
 `spts` is a nested array of CartesianIndex{2}. The outer is a collection of points in each streamline.    
 
 The shape and ordering of streamlines do not currently matter,  but an extension might be
 used to convey some property.
 """
-function spray_along_nested_indices(cov, spts, r::Float32, strength::Float32) 
+function spray_along_nested_indices!(cov, spts, r::Float32, strength::Float32) 
     @assert eltype(spts) <: Vector
     for streamline in spts
-        spray_along_indices(cov, streamline, r, strength)
+        spray_along_indices!(cov, streamline, r, strength)
     end
     cov
 end
 
 """
-    spray_along_nested_indices(cov, spts::Vector{CartesianIndex{2}}, r::Float32, strength::Float32)
+    spray_along_indices!(cov, spts::Vector{CartesianIndex{2}}, r::Float32, strength::Float32)
 """
-function spray_along_indices(cov, spts::Vector{CartesianIndex{2}}, r::Float32, strength::Float32)
+function spray_along_indices!(cov, spts::Vector{CartesianIndex{2}}, r::Float32, strength::Float32)
     for pt in spts
         spray!(cov, pt,  r, strength)
     end
