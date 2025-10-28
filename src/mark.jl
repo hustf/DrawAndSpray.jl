@@ -34,14 +34,25 @@ Mark in-place
 - a shape centered on cartesian index 'I'.
 - identical shapes centered on a collection 'inds'.
 
-# Arguments (including keywords)
+# Arguments
 
-- side       defines the shape's square bounding box
-- shapename  "on_square", "in_circle", or corresponding from `f_is_filled` below
-- f_is_filled is a function generator taking the 'side' argument.
-  The generated function take a tuple of indices and returns a Bool.
+- `side`       defines the shape's square bounding box
+- `shapename` String
 
-Predefined (not exported):
+  * "`on_square`"
+  * "`on_triangle`"
+  * "`on_circle`"
+  * "`in_square`"
+  * "`in_triangle`"
+  * "`in_circle`"
+  * "`on_cross`"
+  * "`on_xcross`"
+  * "`on_hline`"
+  * "`on_vline`"
+
+- `f_is_filled`, when speed is needed is a function generator taking the 'side' argument.
+
+Predefined (not exported) :
 ```
 func_is_on_square
 func_is_on_triangle
@@ -129,14 +140,14 @@ function line!(img, A::CartesianIndex{2}, B::CartesianIndex{2}, tol_dist=√2 / 
 end
 
 """
-    color_neighbors!(img, R, C, max_dist2)
+    color_neighbors!(img, R, I, max_dist2)
 
-Colors all neighbors of index `C` within the squared distance `max_dist2` and bounds `R`.
+Colors all neighbors of index `I` within the squared distance `max_dist2` and bounds `R`.
 """
-function color_neighbors!(img, R, C::CartesianIndex{2}, max_dist2)
+function color_neighbors!(img, R, I::CartesianIndex{2}, max_dist2)
     for di in -1:1
         for dj in -1:1
-            neighbor = CartesianIndex(C[1] + di, C[2] + dj)
+            neighbor = CartesianIndex(I[1] + di, I[2] + dj)
             if neighbor in R && (di^2 + dj^2 <= max_dist2)
                 img[neighbor] = oneunit(eltype(img))
             end
