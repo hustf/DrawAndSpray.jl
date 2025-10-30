@@ -1,7 +1,13 @@
 name = "DrawAndSpray"
 uuid = "80de0461-81d9-4176-ac57-184d3ad6c8ef"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["hustf <hustf@users.noreply.github.com> and contributors"]
 
 [deps]
 ImageCore = "a09fc81d-aa75-5fe9-8630-4744c3626534"
+ImageShow = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+
+[compat]
+ImageShow = "0.3.8"
+PrecompileTools = "1.3.3"

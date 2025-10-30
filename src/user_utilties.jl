@@ -1,3 +1,12 @@
+"""
+    display_if_vscode(M)
+
+ Stretch gray colors from black to white (if M allows).
+
+    display_if_vscode(M::Matrix{T}) where T <: Colorant
+
+Use instead of 'display' to avoid showing a text representation.
+"""
 function display_if_vscode(M)
     if isinteractive()
         if get(ENV, "TERM_PROGRAM", "") == "vscode"
@@ -8,13 +17,11 @@ function display_if_vscode(M)
         end
     end
 end
-function display_if_vscode(M::Matrix{T}) where T <: Union{RGBA{N0f8}, RGB{N0f8}, XYZ{Float32}, XYZA{Float32}, RGB{Float32}}
+function display_if_vscode(M::Matrix{T}) where T <: Colorant
     if isinteractive()
         if get(ENV, "TERM_PROGRAM", "") == "vscode"
             # Display
             display(M)
         end
-    else
-        @show isinteractive() # Temp
     end
 end

@@ -3,19 +3,18 @@ Basic drawing and coverage accumulation on matrices.
 
 ## Why
 
-[ImageDraw.jl](https://github.com/JuliaImages/ImageDraw.jl) can't spray.
+* [ImageDraw.jl](https://github.com/JuliaImages/ImageDraw.jl) can't spray.
+* [ColorBlend.jl](https://github.com/kimikage/ColorBlendModes.jl/tree/master) is currently not compatible with the latest `ColorTypes.jl`.
 
 This is a lightweight, light dependency repository for modifying raster images and numeric matrices. The original code is moved here from `BitmapMaps.jl` and `BitmapMapsExtras.jl`.
 
 ## For what
 
-For indirect calls en masse, not a 'user-facing' library.
+For indirect drawing and compositing calls en masse, not a 'user-facing' drawing library. A few glyph functions are included more as examples.
 
-It draws fast, but is intended for adding light touches to images, like symbols, glyphs and streamlines. 
+`DrawAndSpray.jl` draws fast, but is intended for adding light touches to images, like symbols, glyphs and streamlines. 
 
-`DrawAndSpray.jl` has non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs.
-
-For development, `display_if_vscode` will show numeric matrices graphically.
+It has non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs.
 
 
 ## Installation
@@ -29,25 +28,24 @@ pkg> add DrawAndSpray
 julia> using DrawAndSpray
 
 julia> varinfo(DrawAndSpray)
-  name                             size summary
-  –––––––––––––––––––––––––– –––––––––– –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  DrawAndSpray                31.880 KiB Module
+  name                              size summary
+  ––––––––––––––––––––––––––– –––––––––– ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+  DrawAndSpray                33.519 KiB Module
   LogMapper                     40 bytes UnionAll
-  apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)
+  apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)   
   color_neighbors!               0 bytes color_neighbors! (generic function with 1 method)
-  draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method)
+  draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method) 
   draw_vector!                   0 bytes draw_vector! (generic function with 1 method)
   line!                          0 bytes line! (generic function with 2 methods)
   mark_at!                       0 bytes mark_at! (generic function with 3 methods)
+  over!                          0 bytes over! (generic function with 1 method)
   spray!                         0 bytes spray! (generic function with 1 method)
   spray_along_nested_indices!    0 bytes spray_along_nested_indices! (generic function with 1 method)
 ```
 
-See the test directory for examples.
+# Overview
 
-# Overview of what `DrawAndSpray`
-
-See inline documentation for details.
+See inline documentation for details, /test for examples.
 
 ### Single-color
 
@@ -74,6 +72,7 @@ See inline documentation for details.
 - `apply_color_by_coverage!` converts coverage to one transparent color and overlays it over your image
 - `LogMapper` is an argument to `apply_color_by_coverage!`. It can be fine tuned to operate more like pencil strokes, spray, or paint with differing thixotropy.
 - `apply_color_by_any_coverage!`
+- `over!` can do alpha compositing (Porter-Duff over)
 
 ### Gradually applied color functions
 
@@ -87,4 +86,6 @@ When these don't fit, they still make nice templates.
 
 ### Luggage
 
-`DrawAndSpray.display_if_vscode` will display images and also coverage matrices. Used in test files. Also see `test/common.jl`, which makes hashes.
+`ImageShow.jl` is used. This will extend VSCode and IJulia's functions for displaying matrices graphically.
+
+`DrawAndSpray.display_if_vscode` will try to display graphically if possible. Also see `test/common.jl`, which makes hashes.

@@ -18,5 +18,9 @@ end
 @testset "spray shapes" begin
     include("t_spray_shapes.jl")
 end
+@testset "blend" begin
+    include("t_blend.jl")
+end
+
 
 end

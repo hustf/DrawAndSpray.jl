@@ -42,7 +42,7 @@ end
 """
     over!(img, src)
 
-In-place straight-alpha source-over compositing of two images.
+In-place straight-alpha source-over compositing of two images. `src` must have an alpha channel.
 """
 function over!(img, src)
     img .= over.(img, src)
