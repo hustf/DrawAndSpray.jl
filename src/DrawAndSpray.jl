@@ -1,7 +1,7 @@
 module DrawAndSpray
 
 import ImageCore
-using ImageCore: Gray, RGB, RGBA, Colorant
+using ImageCore: Gray, RGB, RGBA, Colorant, Oklch
 using ImageCore: N0f8, Normed, alpha, red, green, blue
 using ImageCore: scaleminmax, colorview
 # Luggage
@@ -10,8 +10,9 @@ using PrecompileTools: @setup_workload, @compile_workload
 using ImageShow # This enables display of (all) bitmaps in VSCode and IJulia. Not strictly required.
 
 export mark_at!, line!, color_neighbors!
-export draw_vector!, draw_bidirectional_vector!, spray_along_nested_indices! 
-export spray!, LogMapper, apply_color_by_coverage!, over!
+export draw_vector!, draw_bidirectional_vector!
+export spray_along_nested_indices!, spray!
+export LogMapper, apply_color_by_coverage!, over!, chromaticity_over!
 
 "Fixed taper for vector glyphs, including bidirectional vectors"
 const VECTOR_REL_HALFWIDTH = 0.075
@@ -56,6 +57,19 @@ include("user_utilties.jl")
         cov = rand(Float32, w, h)
         img = zeros(RGBA{N0f8}, size(cov))
         apply_color_by_coverage!(img, cov, RGB{N0f8}(1,1,1))
+        # From t_blend
+        img =  [RGB{N0f8}(0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
+        imgA = [RGBA{N0f8}(0.1i, 0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
+        src =  [RGB{N0f8}(0.1j, (1 - 0.1j), 0.1j) for i in 1:10, j in 1:10]
+        srcA = [RGBA{N0f8}(0.1j, (1 - 0.1j), 0.1j, 0.1j) for i in 1:10, j in 1:10]
+        for (bkg, source) in [(img, srcA) (imgA, srcA)]
+            b = copy(bkg)
+            over!(b, source)
+        end
+        for (bkg, source) in [(img, src) (img, srcA) (imgA, srcA)]
+            b = copy(bkg)
+            chromaticity_over!(b, source)
+        end
     end
 end
-end
+end # module

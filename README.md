@@ -6,15 +6,15 @@ Basic drawing and coverage accumulation on matrices.
 * [ImageDraw.jl](https://github.com/JuliaImages/ImageDraw.jl) can't spray.
 * [ColorBlend.jl](https://github.com/kimikage/ColorBlendModes.jl/tree/master) is currently not compatible with the latest `ColorTypes.jl`.
 
+## What
+
 This is a lightweight, light dependency repository for modifying raster images and numeric matrices. The original code is moved here from `BitmapMaps.jl` and `BitmapMapsExtras.jl`.
 
-## For what
+It's force principal is non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs.
 
-For indirect drawing and compositing calls en masse, not a 'user-facing' drawing library. A few glyph functions are included more as examples.
+It does indirect drawing and image compositing calls en masse, but is not a 'user-facing' drawing library. A few glyph functions are included, more as examples. 
 
 `DrawAndSpray.jl` draws fast, but is intended for adding light touches to images, like symbols, glyphs and streamlines. 
-
-It has non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs.
 
 
 ## Installation
@@ -26,15 +26,18 @@ pkg> registry add https://github.com/hustf/M8
 pkg> add DrawAndSpray
 
 julia> using DrawAndSpray
+Precompiling DrawAndSpray finished.
+  1 dependency successfully precompiled in 5 seconds. 46 already precompiled.
 
 julia> varinfo(DrawAndSpray)
   name                              size summary
   ––––––––––––––––––––––––––– –––––––––– ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  DrawAndSpray                33.519 KiB Module
+  DrawAndSpray                37.434 KiB Module
   LogMapper                     40 bytes UnionAll
-  apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)   
+  apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)
+  chromaticity_over!             0 bytes chromaticity_over! (generic function with 1 method)
   color_neighbors!               0 bytes color_neighbors! (generic function with 1 method)
-  draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method) 
+  draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method)
   draw_vector!                   0 bytes draw_vector! (generic function with 1 method)
   line!                          0 bytes line! (generic function with 2 methods)
   mark_at!                       0 bytes mark_at! (generic function with 3 methods)
@@ -72,7 +75,6 @@ See inline documentation for details, /test for examples.
 - `apply_color_by_coverage!` converts coverage to one transparent color and overlays it over your image
 - `LogMapper` is an argument to `apply_color_by_coverage!`. It can be fine tuned to operate more like pencil strokes, spray, or paint with differing thixotropy.
 - `apply_color_by_any_coverage!`
-- `over!` can do alpha compositing (Porter-Duff over)
 
 ### Gradually applied color functions
 
@@ -83,6 +85,11 @@ When these don't fit, they still make nice templates.
 - `draw_bidirectional_vector!`
 - `spray_along_indices!` 
 - `spray_along_nested_indices!` 
+
+### Composite blending
+
+- `over!` can do alpha compositing (Porter-Duff over).
+- `chromaticity_over!` takes hue and chroma from one image and lightness from another.
 
 ### Luggage
 

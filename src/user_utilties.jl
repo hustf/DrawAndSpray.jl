@@ -17,7 +17,7 @@ function display_if_vscode(M)
         end
     end
 end
-function display_if_vscode(M::Matrix{T}) where T <: Colorant
+function display_if_vscode(M::Array{T}) where T <: Colorant
     if isinteractive()
         if get(ENV, "TERM_PROGRAM", "") == "vscode"
             # Display
