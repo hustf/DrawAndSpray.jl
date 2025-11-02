@@ -61,6 +61,7 @@ include("user_utilties.jl")
         img =  [RGB{N0f8}(0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
         imgA = [RGBA{N0f8}(0.1i, 0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
         src =  [RGB{N0f8}(0.1j, (1 - 0.1j), 0.1j) for i in 1:10, j in 1:10]
+        src[3,3] = RGB{N0f8}(0, 0, 0)
         srcA = [RGBA{N0f8}(0.1j, (1 - 0.1j), 0.1j, 0.1j) for i in 1:10, j in 1:10]
         for (bkg, source) in [(img, srcA) (imgA, srcA)]
             b = copy(bkg)

@@ -19,11 +19,12 @@ using DrawAndSpray: over!, chromaticity_over!, over, chromaticity_over
 end
 
 @testset "Composite blend modes" begin
-    vhash = ["04932c274140965b5329ea31947e332407183bb6", "bf861405e58424836768656e484ec2b79b36717c", "cbdadcde08bb3faf88ebd8ad0f46b6912a6e4230", "ba308599a33eb5bbd9f4be35d918277c58135f8a", "a7b0fcc4348b2a68c43c90aeaa671569f6ec55f2"]
+    vhash = ["04932c274140965b5329ea31947e332407183bb6", "bf861405e58424836768656e484ec2b79b36717c", "ca9047d0f74e2cf7aae33a7509153eb0e68f73ef", "ba308599a33eb5bbd9f4be35d918277c58135f8a", "a7b0fcc4348b2a68c43c90aeaa671569f6ec55f2"]
     COUNT[] = 0
     img =  [RGB{N0f8}(0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
     imgA = [RGBA{N0f8}(0.1i, 0.1i, 0.1i, 0.1i) for i in 1:10, j in 1:10]
     src =  [RGB{N0f8}(0.1j, (1 - 0.1j), 0.1j) for i in 1:10, j in 1:10]
+    src[3,3] = RGB{N0f8}(0,0,0)
     srcA = [RGBA{N0f8}(0.1j, (1 - 0.1j), 0.1j, 0.1j) for i in 1:10, j in 1:10]
     for (bkg, source) in [(img, srcA) (imgA, srcA)]
         b = copy(bkg)

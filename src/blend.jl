@@ -57,7 +57,7 @@ Take **chromaticity** (hue `h`, chroma `c`) from `src` in the
     s = convert(Oklch{Float32}, src)
     d = convert(Oklch{Float32}, bkg)
     if isnan(s.h) || s.c == 0f0       # achromatic source: nothing to tint with
-        return dst
+        return bkg
     end
     out = Oklch{Float32}(d.l, s.c, s.h)
     convert(RGB{T}, convert(RGB{Float32}, out))  # clamp via convert
