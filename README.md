@@ -8,14 +8,16 @@ Basic drawing and coverage accumulation on matrices.
 
 ## What
 
-This is a lightweight, light dependency repository for modifying raster images and numeric matrices. The original code is moved here from `BitmapMaps.jl` and `BitmapMapsExtras.jl`.
+This is a lightweight, light dependency repository for modifying raster images and numeric matrices. It is not a 'user-facing' drawing library. The original code is migrated here from `BitmapMaps.jl` and `BitmapMapsExtras.jl`.
 
-It's force principal is non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs.
+1) It's force principal is spraying: non-linear conversion from pixel coverage to opacity, useful when you want visual feedback on which pixels were visited many times, or when you want aliasing on edges of glyphs. With this method, you have millions of nuances, great for visual analysis.
 
-It does indirect drawing and image compositing calls en masse, but is not a 'user-facing' drawing library. A few glyph functions are included, more as examples. 
+2) It can also draw 'black-and white' lines, squares and other shapes.
+
+3) It has a small, useful selection of image compositing modes.
+
 
 `DrawAndSpray.jl` draws fast, but is intended for adding light touches to images, like symbols, glyphs and streamlines. 
-
 
 ## Installation
 This package is registered in a separate registry, which holds related packages.
@@ -32,9 +34,11 @@ Precompiling DrawAndSpray finished.
 julia> varinfo(DrawAndSpray)
   name                              size summary
   ––––––––––––––––––––––––––– –––––––––– ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  DrawAndSpray                37.434 KiB Module
+  DrawAndSpray                42.815 KiB Module
   LogMapper                     40 bytes UnionAll
   apply_color_by_coverage!       0 bytes apply_color_by_coverage! (generic function with 1 method)
+  blend_lighten!                 0 bytes blend_lighten! (generic function with 1 method)
+  blend_multiply!                0 bytes blend_multiply! (generic function with 1 method)
   chromaticity_over!             0 bytes chromaticity_over! (generic function with 1 method)
   color_neighbors!               0 bytes color_neighbors! (generic function with 1 method)
   draw_bidirectional_vector!     0 bytes draw_bidirectional_vector! (generic function with 1 method)
@@ -88,8 +92,12 @@ When these don't fit, they still make nice templates.
 
 ### Composite blending
 
+These function are defined, but the input types (RGB, RGBA, Gray) vary. See inline docs.
+
 - `over!` can do alpha compositing (Porter-Duff over).
 - `chromaticity_over!` takes hue and chroma from one image and lightness from another.
+- `blend_multiply!` multiplies color channels separately. 
+- `blend_lighten!` selects the lightest channel from two images. Nice for overlaying black-and-white drawings.
 
 ### Luggage
 

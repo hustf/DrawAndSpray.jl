@@ -99,5 +99,78 @@ end
 
 
 
+"""
+    blend_multiply(bkg::RGB{T}, src::RGBA{T}) where {T<:Normed}
+    blend_multiply(bkg::RGB{T}, src::RGB{T}) where {T<:Normed}
+    blend_multiply(bkg::RGBA{T}, src::RGBA{T}) where {T<:Normed}
+
+The source color channels are multiplied by the backdrop color channels.
+If the source is the only one with an alpha channel, the alpha channel works 
+as a mask: α = 0 => Result equals `bkg`.
+"""
+@inline function blend_multiply(bkg::RGB{T}, src::RGBA{T}) where {T<:Normed}
+    s = RGBA{Float32}(src)
+    d = RGB{Float32}(bkg)
+    a = alpha(s)                # 0..1
+    # Where alpha = 0: No change.
+    # Where alpha = 1: Full mix.
+    r = red(d)   * (1 - a) + red(d) * red(s)   * a
+    g = green(d) * (1 - a) + green(d) * green(s) * a
+    b = blue(d)  * (1 - a) + blue(d) * blue(s)  * a
+    return RGB{T}(r, g, b)
+end
+@inline function blend_multiply(bkg::RGB{T}, src::RGB{T}) where {T<:Normed}
+    s = RGB{Float32}(src)
+    d = RGB{Float32}(bkg)
+    r = red(d)   * red(s)
+    g = green(d) * green(s)
+    b = blue(d)  * blue(s)
+    return RGB{T}(r, g, b)
+end
+@inline function blend_multiply(bkg::RGBA{T}, src::RGBA{T}) where {T<:Normed}
+    s = RGBA{Float32}(src)
+    d = RGBA{Float32}(bkg)
+    r = red(d)   * red(s)
+    g = green(d) * green(s)
+    b = blue(d)  * blue(s)
+    a = alpha(d) * alpha(s)
+    return RGBA{T}(r, g, b, a)
+end
+
+"""
+    blend_multiply!(img, src)
+
+The source color channels are multiplied by the backdrop color channels.
+"""
+function blend_multiply!(img, src)
+    img .= blend_multiply.(img, src)
+    img
+end
+
+
+
+
+
+"""
+    blend_lighten(bkg::Gray{T}, src::Gray{T}) where T
+
+Keep the lightest pixel from `bkg` and `src`.
+"""
+@inline function blend_lighten(bkg::Gray{T}, src::Gray{T}) where T
+    s = Gray{Float32}(src)
+    d = Gray{Float32}(bkg)
+    return Gray{T}(max(s, d))
+end
+
+
+"""
+    blend_lighten!(img, src)
+
+Keep the lightest pixel from `bkg` and `src`.
+"""
+function blend_lighten!(img, src)
+    img .= blend_lighten.(img, src)
+    img
+end
 
 

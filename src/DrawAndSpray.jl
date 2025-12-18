@@ -12,7 +12,8 @@ using ImageShow # This enables display of (all) bitmaps in VSCode and IJulia. No
 export mark_at!, line!, color_neighbors!
 export draw_vector!, draw_bidirectional_vector!
 export spray_along_nested_indices!, spray!
-export LogMapper, apply_color_by_coverage!, over!, chromaticity_over!
+export LogMapper, apply_color_by_coverage!
+export over!, chromaticity_over!, blend_multiply!, blend_lighten!
 
 "Fixed taper for vector glyphs, including bidirectional vectors"
 const VECTOR_REL_HALFWIDTH = 0.075
@@ -70,6 +71,14 @@ include("user_utilties.jl")
         for (bkg, source) in [(img, src) (img, srcA) (imgA, srcA)]
             b = copy(bkg)
             chromaticity_over!(b, source)
+        end
+        for (bkg, source) in [(img, src) (img, srcA) (imgA, srcA)]
+            b = copy(bkg)
+            blend_multiply!(b, source)
+        end
+        for (bkg, source) in [(Gray{Bool}.(rand(Bool, 10,10)), Gray{Bool}.(rand(Bool, 10,10))) (Gray{N0f8}.(rand(N0f8, 10,10)), Gray{N0f8}.(rand(N0f8, 10,10)))]
+            b = copy(bkg)
+            blend_lighten!(b, source)
         end
     end
 end
